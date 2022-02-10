@@ -1,3 +1,4 @@
+import "./css/PayTimer.css";
 import {React, useState, useRef} from 'react';
 import Input from "./Input.jsx";
 import Display from "./Display";
@@ -24,8 +25,8 @@ function PayTimer() {
     const earningsPerSecond = useRef(0);
     const intervalId = useRef(null);
     const [hourlyRate, updateHrlyRate] = useState(0);
-    const [timer, setTimer] = useState(0);
-    const [earnings, setEarnings] = useState(0);
+    const [timer, setTimer] = useState("00:00:00");
+    const [earnings, setEarnings] = useState((0).toFixed(2));
     const [btnText, setBtnText] = useState('"Clock In"');
 
     let startTime = Date.now();
@@ -42,7 +43,6 @@ function PayTimer() {
     }
 
     function btnClick() {
-        console.log(started.current);
         if (!started.current) {
             started.current = true;
             earningsPerSecond.current = hourlyRate / 3600;
@@ -70,8 +70,10 @@ function PayTimer() {
         updateHrlyRate(0);
         started.current = false;
     }
+    
     return (
         <div className="pay-timer">
+            <p>Enter your hourly rate.</p>
             <Input labelText="$/hr" class="hrInput" inputType="number" onChangeFunc={hrlyUpdate} inputValue={hourlyRate}/>
             <button className="startStopBtn" onClick={btnClick}>{btnText}</button>
             <Display displayId="timeDisplay" displayText={timer}/>
